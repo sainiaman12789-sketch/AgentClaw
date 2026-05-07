@@ -412,6 +412,10 @@ publish_mcp_toolkit(toolkit, server="image-tools")
 - [部署说明](./agentclaw/docs/zh/deployment.md) - 本地启动、基础设施与服务部署
 - [最佳实践](./agentclaw/docs/zh/best_practices.md) - 推荐模式
 
+## 🔗 友情链接
+
+- [LINUX DO](https://linux.do/)
+
 ## 🤝 商业与企业支持
 
 如果你希望在 AgentClaw 基础上继续做更强的定制能力，也可以进一步扩展到更高要求的交付场景：

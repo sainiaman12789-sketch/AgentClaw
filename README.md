@@ -424,6 +424,10 @@ The example above exposes `generate_image` under the grouped MCP server
 - [Deployment](./agentclaw/docs/en/deployment.md) - Local startup, infrastructure, and deployment guidance
 - [Best Practices](./agentclaw/docs/en/best_practices.md) - Recommended patterns
 
+## 🔗 Friendly Links
+
+- [LINUX DO](https://linux.do/)
+
 ## 🤝 Commercial & Enterprise Support
 
 If you want to build stronger customized capabilities on top of AgentClaw, it can also be extended into higher-demand delivery scenarios:
