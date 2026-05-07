@@ -22,7 +22,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/version-1.0.6-orange.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.0.7-orange.svg" alt="Version">
 </p>
 
 ---
@@ -34,13 +34,13 @@
 这个演示展示了 Agent Creator 如何根据自然语言需求创建一个可运行的系统日志审计智能体：连接 MySQL，读取 `system_audit_logs`，分析错误、告警、异常访问、权限拒绝、高风险操作和定时任务执行情况，配置每日定时任务，执行智能体，并生成 Markdown 报告。
 
 <p align="center">
-  <video src="./assets/agent_creator.mp4" controls width="100%">
-    当前浏览器不支持内嵌视频。可以直接打开演示视频：<a href="./assets/agent_creator.mp4">assets/agent_creator.mp4</a>
-  </video>
+  <a href="./assets/agent_creator.gif">
+    <img src="./assets/agent_creator.gif" alt="Agent Creator 演示：创建并运行定时系统日志审计智能体" width="100%">
+  </a>
 </p>
 
 <p align="center">
-  <a href="./assets/agent_creator.mp4">打开 Agent Creator 演示视频</a>
+  <a href="./assets/agent_creator.gif">打开 Agent Creator 演示 GIF</a>
 </p>
 
 ## 核心价值

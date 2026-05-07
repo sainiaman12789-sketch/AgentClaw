@@ -2,6 +2,22 @@
 
 All notable changes to AgentClaw will be documented in this file.
 
+## [1.0.7] - 2026-05-07
+
+**Changed**
+
+- 项目版本从 `1.0.6` 更新为 `1.0.7`，同步 `VERSION`、Python 包元数据、`uv.lock`、管理后台 package 元数据和 README 徽章。
+- README / README_CN 的 Agent Creator 演示从内嵌 MP4 改为直接展示 GIF，提升 GitHub / PyPI 等页面上的预览兼容性。
+- Python 包元数据改用 SPDX `license = "Apache-2.0"`，并将构建后端要求提升到支持该格式的 setuptools 版本，避免构建时出现 license 元数据弃用告警。
+
+**Fixed**
+
+- 修复 1.0.6 真实 `uv pip install agentclaw-ai` 后，导入 AgentClaw 仍会打印 LangGraph/LangChain `allowed_objects` 的 `LangChainPendingDeprecationWarning`；过滤器现在按 LangChain 的实际 warning 类型精确匹配。
+
+**Tests**
+
+- 补充 warning 过滤测试，覆盖 LangChain pending deprecation warning 类本身，避免只匹配普通 `Warning` 而在真实安装环境中失效。
+
 ## [1.0.6] - 2026-05-07
 
 **Changed**

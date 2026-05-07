@@ -22,7 +22,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/version-1.0.6-orange.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.0.7-orange.svg" alt="Version">
 </p>
 
 ---
@@ -34,13 +34,13 @@
 This demo shows Agent Creator turning a natural-language request into a working system-log audit agent: it connects to MySQL, reads `system_audit_logs`, analyzes errors, warnings, abnormal access, permission denials, high-risk operations, and scheduled-job execution, creates a daily scheduler job, runs the agent, and writes a Markdown report.
 
 <p align="center">
-  <video src="./assets/agent_creator.mp4" controls width="100%">
-    Your browser does not support embedded videos. Open the demo video: <a href="./assets/agent_creator.mp4">assets/agent_creator.mp4</a>
-  </video>
+  <a href="./assets/agent_creator.gif">
+    <img src="./assets/agent_creator.gif" alt="Agent Creator demo: build and run a scheduled system-log audit agent" width="100%">
+  </a>
 </p>
 
 <p align="center">
-  <a href="./assets/agent_creator.mp4">Open the Agent Creator demo video</a>
+  <a href="./assets/agent_creator.gif">Open the Agent Creator demo GIF</a>
 </p>
 
 ## Core Value
