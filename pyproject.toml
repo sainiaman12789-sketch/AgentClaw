@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agentclaw-ai"
 version = "1.0.5"
-description = "Build production-ready AI agents in minutes — declarative workflows, built-in dashboard, skills, streaming & scheduling out of the box."
+description = "AgentClaw turns one-sentence ideas into reusable Claw capabilities with declarative workflows, computer/browser/code/file control, MCP, Skills, memory, knowledge bases, tracing, scheduling, and API/MCP publishing."
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
@@ -91,9 +91,9 @@ all = [
 agentclaw = "agentclaw.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/negai-ai/agentclaw"
-Documentation = "https://github.com/negai-ai/agentclaw"
-Repository = "https://github.com/negai-ai/agentclaw"
+Homepage = "https://github.com/Negai-ai/AgentClaw"
+Documentation = "https://github.com/Negai-ai/AgentClaw"
+Repository = "https://github.com/Negai-ai/AgentClaw"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -108,6 +108,12 @@ agentclaw = [
     "docker/.env.example",
     "skills/builtin_skills/**/*",
     "channels/wecom_worker/*",
+]
+
+[tool.setuptools.exclude-package-data]
+agentclaw = [
+    "**/__pycache__/*",
+    "**/*.pyc",
 ]
 
 [tool.pytest.ini_options]
