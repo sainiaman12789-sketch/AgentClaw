@@ -8,6 +8,10 @@ AgentClaw - 轻量级 AI Agent 框架
 - 流式输出
 """
 
+from agentclaw.warning_filters import install_warning_filters
+
+install_warning_filters()
+
 from agentclaw.version import __version__, get_version
 
 from .platform_compat import apply_windows_selector_event_loop_policy

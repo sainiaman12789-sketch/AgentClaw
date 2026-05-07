@@ -750,7 +750,7 @@ class LLMNode(BaseNode):
                 except ImportError:
                     logger.info(
                         f"节点 {self.id} playwright 未安装，跳过 browser-tools。"
-                        f"安装方式: uv pip install -e .[all] && playwright install chromium"
+                        f"安装方式: pip install agentclaw-ai && playwright install chromium"
                     )
                 except Exception as e:
                     logger.warning(f"节点 {self.id} 启用 browser-tools 失败: {e}")

@@ -2,6 +2,27 @@
 
 All notable changes to AgentClaw will be documented in this file.
 
+## [1.0.6] - 2026-05-07
+
+**Changed**
+
+- 项目版本从 `1.0.5` 更新为 `1.0.6`，同步 `VERSION`、Python 包元数据、`uv.lock`、管理后台 package 元数据和 README 徽章。
+- `pip install agentclaw-ai` 现在默认安装完整运行依赖，包含 Redis、文档解析、知识库、调度器、浏览器工具、Windows 桌面工具、飞书/钉钉等渠道依赖，保持与 README 中的默认安装方式一致。
+- Quick Start / Deployment 文档改为以 `pip install agentclaw-ai` 和 `uv pip install agentclaw-ai` 为主；浏览器自动化只在缺少本机 Chrome/Chromium/Edge 时提示额外执行 `playwright install chromium`。
+
+**Fixed**
+
+- 修复 PyPI 1.0.5 默认安装缺少 Redis、Playwright、APScheduler、MarkItDown、Milvus Lite、渠道 SDK 等依赖，导致浏览器操作、Redis、知识库、调度和渠道能力安装后不可用的问题。
+- 修复启用企业微信 bot 渠道时，wheel 中没有 `node_modules/@wecom/aibot-node-sdk` 会导致 Node worker 直接 `ERR_MODULE_NOT_FOUND` 的问题；启动 worker 前会检查并通过 `npm install --omit=dev --no-audit --no-fund` 自动安装缺失的 npm 依赖。
+- 修复企业微信 worker 启动失败时只显示泛化 “failed to start” 的问题，现在会保留并展示 worker 上报的具体错误。
+- 修复部分 LangGraph/LangChain 版本启动时打印 `allowed_objects` 默认值即将变化的 `LangChainPendingDeprecationWarning`；AgentClaw 现在显式创建 checkpoint serializer，并仅过滤这条第三方启动噪声。
+
+**Tests**
+
+- 新增 PyPI distribution 元数据测试，覆盖默认依赖必须包含完整运行能力。
+- 新增企业微信 worker 依赖自修复测试，覆盖 npm 依赖缺失时安装、已存在时跳过安装。
+- 新增启动 warning 过滤测试，确保只过滤 LangGraph `allowed_objects` 这条噪声，不隐藏其他 warning。
+
 ## [1.0.5] - 2026-05-06
 
 **Added**

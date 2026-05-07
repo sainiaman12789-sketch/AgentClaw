@@ -2,17 +2,21 @@
 
 ## 安装
 
-推荐先安装完整依赖：
-
-```bash
-uv pip install -e .[all]
-```
-
-如果只是体验基础能力，也可以直接安装：
+安装 PyPI 包：
 
 ```bash
 pip install agentclaw-ai
 ```
+
+如果你使用 `uv`，可以安装同一个包：
+
+```bash
+uv pip install agentclaw-ai
+```
+
+默认安装已经包含 Redis、调度、文档解析、知识库、渠道、浏览器工具和
+Windows 桌面辅助等运行依赖。浏览器自动化如果本机没有可用的
+Chrome/Chromium/Edge，仍可能需要额外执行 `playwright install chromium`。
 
 ## 初始化项目
 

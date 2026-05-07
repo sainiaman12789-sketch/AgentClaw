@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentclaw-ai"
-version = "1.0.5"
+version = "1.0.6"
 description = "AgentClaw turns one-sentence ideas into reusable Claw capabilities with declarative workflows, computer/browser/code/file control, MCP, Skills, memory, knowledge bases, tracing, scheduling, and API/MCP publishing."
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -39,6 +39,16 @@ dependencies = [
     "psycopg[binary]>=3.1.0",
     "psycopg-pool>=3.1.0",
     "langgraph-checkpoint-postgres>=1.0.0",
+    "redis>=5.0.0",
+    "markitdown[all]>=0.0.1",
+    "pymilvus[milvus_lite]>=2.5.0",
+    "APScheduler>=3.10.0,<4.0.0",
+    "croniter>=2.0.0",
+    "playwright>=1.52.0",
+    "pywinauto>=0.6.8; platform_system == 'Windows'",
+    "aiohttp>=3.8.0",
+    "lark-oapi>=1.4.0",
+    "dingtalk-stream>=0.9.0",
 ]
 
 [project.optional-dependencies]

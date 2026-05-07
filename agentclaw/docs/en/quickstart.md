@@ -2,17 +2,23 @@
 
 ## Installation
 
-Recommended for local development:
-
-```bash
-uv pip install -e .[all]
-```
-
-For a minimal install:
+Install the PyPI package:
 
 ```bash
 pip install agentclaw-ai
 ```
+
+If you use `uv`, install the same package with:
+
+```bash
+uv pip install agentclaw-ai
+```
+
+The default install includes AgentClaw runtime integrations such as Redis,
+scheduler, document parsing, knowledge bases, channels, browser tooling, and
+Windows desktop helpers. Browser automation may still require
+`playwright install chromium` if no compatible Chrome/Chromium/Edge executable
+is available locally.
 
 ## Initialize a Project
 

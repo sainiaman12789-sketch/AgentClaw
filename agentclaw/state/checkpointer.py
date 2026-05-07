@@ -16,6 +16,10 @@ from ..platform_compat import (
     normalize_service_host,
 )
 from agentclaw.logger.config import get_logger
+from agentclaw.warning_filters import install_warning_filters
+
+install_warning_filters()
+
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 apply_windows_selector_event_loop_policy()
@@ -41,6 +45,25 @@ async def _close_pool(pool: Any) -> None:
         await close()
     else:
         await _run_blocking(close)
+
+
+def create_checkpoint_serde() -> Any:
+    """Create an explicit LangGraph checkpoint serializer.
+
+    Older LangGraph/LangChain combinations warn that the default
+    ``allowed_objects`` behavior will change. Newer LangGraph releases no
+    longer expose that argument on ``JsonPlusSerializer``. Introspect the local
+    version so AgentClaw stays quiet and explicit across both versions.
+    """
+
+    import inspect
+
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+    kwargs: Dict[str, Any] = {}
+    if "allowed_objects" in inspect.signature(JsonPlusSerializer).parameters:
+        kwargs["allowed_objects"] = "core"
+    return JsonPlusSerializer(**kwargs)
 
 
 class ThreadedPostgresSaver(BaseCheckpointSaver):
@@ -217,6 +240,7 @@ async def setup_checkpointer(connection_string: Optional[str] = None) -> Any:
     pool_timeout = float(_get_env("PG_POOL_TIMEOUT", "30"))
     
     try:
+        serde = create_checkpoint_serde()
         if is_windows_proactor_event_loop():
             _connection_pool = ConnectionPool(
                 conninfo=connection_string,
@@ -231,7 +255,7 @@ async def setup_checkpointer(connection_string: Optional[str] = None) -> Any:
                 },
             )
             await _run_blocking(_connection_pool.open, wait=True, timeout=pool_timeout)
-            _checkpointer = ThreadedPostgresSaver(PostgresSaver(conn=_connection_pool))
+            _checkpointer = ThreadedPostgresSaver(PostgresSaver(conn=_connection_pool, serde=serde))
             await _checkpointer.async_setup()
             logger.info(
                 f"✅ 状态检查点器已初始化 (pool: {pool_min_size}-{pool_max_size}, mode: windows-threaded)"
@@ -252,9 +276,9 @@ async def setup_checkpointer(connection_string: Optional[str] = None) -> Any:
             },
         )
         await _connection_pool.open()
-        
+
         # 创建 checkpointer
-        _checkpointer = AsyncPostgresSaver(conn=_connection_pool)
+        _checkpointer = AsyncPostgresSaver(conn=_connection_pool, serde=serde)
         await _checkpointer.setup()
         
         logger.info(f"✅ 状态检查点器已初始化 (pool: {pool_min_size}-{pool_max_size})")
@@ -391,7 +415,7 @@ def create_memory_checkpointer() -> Any:
         MemorySaver 实例
     """
     from langgraph.checkpoint.memory import MemorySaver
-    return MemorySaver()
+    return MemorySaver(serde=create_checkpoint_serde())
 
 
 async def save_checkpoint(thread_id: str, state: Dict, node_id: str = "") -> bool:

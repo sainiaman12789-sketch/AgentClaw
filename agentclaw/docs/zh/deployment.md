@@ -3,7 +3,7 @@
 ## 快速开始
 
 ```bash
-uv pip install -e .[all]
+pip install agentclaw-ai
 agentclaw init myproject
 cd myproject
 # 编辑 init 自动生成的 .env 与 models.json

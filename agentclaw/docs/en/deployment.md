@@ -3,7 +3,7 @@
 ## Quick Start
 
 ```bash
-uv pip install -e .[all]
+pip install agentclaw-ai
 agentclaw init myproject
 cd myproject
 # Edit the generated .env and models.json

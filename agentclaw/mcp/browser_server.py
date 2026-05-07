@@ -13,7 +13,7 @@ Core mechanism:
   4. Supports interactive/compact/maxDepth snapshot modes
 
 Requires: Playwright Python package and a Chromium/Chrome/Edge executable.
-Recommended install: uv pip install -e .[all] && playwright install chromium
+Recommended install: pip install agentclaw-ai && playwright install chromium
 
 Usage:
     python -m agentclaw.mcp.browser_server
@@ -115,7 +115,7 @@ def _format_tool_error(err: Exception) -> str:
 
 
 def _playwright_install_hint() -> str:
-    return "Install Playwright: uv pip install -e .[all] && playwright install chromium"
+    return "Install browser runtime: pip install agentclaw-ai && playwright install chromium"
 
 
 def _should_launch_headless() -> bool:

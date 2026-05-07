@@ -91,6 +91,7 @@ class WeComChannel(ChannelBase):
         self._worker_stderr_task: Optional[asyncio.Task] = None
         self._stdin_lock = asyncio.Lock()
         self._worker_status = "stopped"
+        self._last_worker_error = ""
         self._startup_timeout = 15.0
         self._startup_grace_period = 2.0
 
@@ -313,6 +314,8 @@ class WeComChannel(ChannelBase):
             self._running = False
             raise RuntimeError(f"WeCom worker script not found: {worker_script}")
 
+        await self._ensure_worker_dependencies(worker_script.parent)
+
         env = os.environ.copy()
         env.update(
             {
@@ -348,6 +351,52 @@ class WeComChannel(ChannelBase):
 
         await self._wait_for_worker_ready()
 
+    def _worker_dependencies_installed(self, worker_dir: Path) -> bool:
+        return worker_dir.joinpath("node_modules", "@wecom", "aibot-node-sdk", "package.json").exists()
+
+    async def _ensure_worker_dependencies(self, worker_dir: Path):
+        if self._worker_dependencies_installed(worker_dir):
+            return
+
+        npm_bin = shutil.which("npm")
+        if not npm_bin:
+            raise RuntimeError(
+                "npm is required to install WeCom bot worker dependencies. "
+                f"Run `npm install --omit=dev` in {worker_dir} or install Node.js/npm first."
+            )
+
+        logger.info("[%s] Installing WeCom worker dependencies in %s", self.name or "wecom", worker_dir)
+        process = await asyncio.create_subprocess_exec(
+            npm_bin,
+            "install",
+            "--omit=dev",
+            "--no-audit",
+            "--no-fund",
+            cwd=str(worker_dir),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        try:
+            stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=180.0)
+        except asyncio.TimeoutError:
+            process.kill()
+            await process.wait()
+            raise RuntimeError(f"WeCom worker dependency install timed out in {worker_dir}")
+
+        out_text = stdout.decode("utf-8", errors="replace").strip()
+        err_text = stderr.decode("utf-8", errors="replace").strip()
+        if out_text:
+            logger.info("[%s] WeCom worker npm install: %s", self.name or "wecom", out_text)
+        if err_text:
+            logger.info("[%s] WeCom worker npm install: %s", self.name or "wecom", err_text)
+
+        if process.returncode != 0:
+            message = err_text or out_text or f"exit code {process.returncode}"
+            raise RuntimeError(f"WeCom worker dependency install failed: {message}")
+
+        if not self._worker_dependencies_installed(worker_dir):
+            raise RuntimeError("WeCom worker dependency install finished but @wecom/aibot-node-sdk is still missing")
+
     async def _wait_for_worker_ready(self):
         deadline = time.time() + self._startup_timeout
         grace_deadline = time.time() + min(self._startup_timeout, self._startup_grace_period)
@@ -355,7 +404,8 @@ class WeComChannel(ChannelBase):
             if self._worker_status == "running":
                 return
             if self._worker_status == "failed":
-                raise RuntimeError(f"[{self.name or 'wecom'}] WeCom worker failed to start")
+                detail = f": {self._last_worker_error}" if self._last_worker_error else ""
+                raise RuntimeError(f"[{self.name or 'wecom'}] WeCom worker failed to start{detail}")
             if self._worker_process and self._worker_process.returncode is not None:
                 raise RuntimeError(
                     f"[{self.name or 'wecom'}] WeCom worker exited unexpectedly "
@@ -463,8 +513,10 @@ class WeComChannel(ChannelBase):
             fatal = bool(event.get("fatal"))
             terminal_name = event.get("name", "") in {"WSAuthFailureError", "WSReconnectExhaustedError"}
             self._worker_status = "failed" if fatal or terminal_name else "connecting"
+            self._last_worker_error = event.get("error", "")
         elif stage == "kicked":
             self._worker_status = "failed"
+            self._last_worker_error = event.get("error", "")
         logger.info("[%s] WeCom worker status: %s", self.name or "wecom", event)
 
     async def _handle_worker_message(self, event: dict):
